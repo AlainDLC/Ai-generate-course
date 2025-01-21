@@ -1,6 +1,11 @@
 import { UserButton } from "@clerk/nextjs";
 import React from "react";
+import AddCourse from "./_components/AddCourse";
 
 export default function Dashboard() {
-  return <UserButton />;
+  return (
+    <div>
+      <AddCourse />
+    </div>
+  );
 }
