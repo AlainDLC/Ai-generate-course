@@ -20,7 +20,7 @@ export default function TopicDescriptoin() {
         </label>
         <Input
           placeholder="Topic"
-          onChange={(e) => handleInputChange("Topic", e.target.value)}
+          onChange={(e) => handleInputChange("topic", e.target.value)}
           defaultValue={userCourseInput?.topic}
         />
       </div>
