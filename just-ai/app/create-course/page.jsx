@@ -1,15 +1,23 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   HiClipboardDocumentCheck,
   HiLightBulb,
   HiMiniSquares2X2,
 } from "react-icons/hi2";
 import SelectCategory from "./_components/SelectCategory";
+import TopicDescriptoin from "./_components/TopicDescription";
+import SelectOption from "./_components/SelectOption";
+import { UseInputContext } from "../_context/UseInputContext";
 
 export default function CreateCourse() {
+  const { userCourseInput, setUserCourseInput } = useContext(UseInputContext);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    console.log(userCourseInput);
+  }, [userCourseInput]);
   const StepperOptions = [
     {
       id: 1,
@@ -56,7 +64,13 @@ export default function CreateCourse() {
       </div>
       <div className="px-10 md:px-20 lg:px-44 mt-10">
         {/*Component */}
-        {activeIndex == 0 ? <SelectCategory /> : null}
+        {activeIndex == 0 ? (
+          <SelectCategory />
+        ) : activeIndex == 1 ? (
+          <TopicDescriptoin />
+        ) : (
+          <SelectOption />
+        )}
 
         <div className="flex justify-between mt-10">
           <Button
