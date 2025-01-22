@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
+import Link from "next/link";
 import React from "react";
 
 export default function AddCourse() {
@@ -16,7 +17,9 @@ export default function AddCourse() {
           </p>
         </h2>
       </div>
-      <Button>+ Create Ai Course</Button>
+      <Link href={"/create-course"}>
+        <Button>+ Create Ai Course</Button>
+      </Link>
     </div>
   );
 }
