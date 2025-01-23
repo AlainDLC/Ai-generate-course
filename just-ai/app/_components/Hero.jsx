@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import React from "react";
 
 export default function Hero() {
@@ -12,7 +13,9 @@ export default function Hero() {
           </h1>
 
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Button className="border-secondary">Get Started</Button>
+            <Link href={"/dashboard"}>
+              <Button className="border-secondary">Get Started</Button>
+            </Link>
           </div>
         </div>
       </div>

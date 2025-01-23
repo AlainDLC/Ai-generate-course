@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useContext, useEffect, useState } from "react";
+import { use, useContext, useEffect, useState } from "react";
 import {
   HiClipboardDocumentCheck,
   HiLightBulb,
@@ -11,15 +11,18 @@ import TopicDescriptoin from "./_components/TopicDescription";
 import SelectOption from "./_components/SelectOption";
 import { UseInputContext } from "../_context/UseInputContext";
 import { GenerateCourseLayout_Ai } from "../../configs/AiModel";
+import LoadingDialog from "./_components/LoadingDialog";
+import { db } from "@/configs/db";
+import { CourseList } from "@/configs/schema";
+import { uuid } from "drizzle-orm/pg-core";
+import { useUser } from "@clerk/nextjs";
+import uuid4 from "uuid4";
 
 export default function CreateCourse() {
-  const [isLoading, setIsLoading] = useState(false);
+  const { user } = useUser();
+  const [loading, setLoading] = useState(false);
   const { userCourseInput, setUserCourseInput } = useContext(UseInputContext);
   const [activeIndex, setActiveIndex] = useState(0);
-
-  useEffect(() => {
-    console.log("Active Index:", activeIndex);
-  }, [activeIndex]);
 
   useEffect(() => {
     console.log(userCourseInput);
@@ -76,33 +79,54 @@ export default function CreateCourse() {
     return false;
   };
 
-  const GenerateCourseLayout = async () => {
-    setIsLoading(true);
-    const BASIC_PROMT =
-      "Generate A Course Tutorail on Following Detail With field as Course Name, Description,Along with Chapter Name, about,Duration:";
-    const USER_INPUT_PROMP =
-      "Category: " +
-      userCourseInput?.category +
-      " Topic: " +
-      userCourseInput?.topic +
-      " Level: " +
-      userCourseInput?.level +
-      " Duration: " +
-      userCourseInput?.duration +
-      " No Chapters: " +
-      userCourseInput?.noOfChapter +
-      " in JSON format";
-    const FINAL_PROMT = BASIC_PROMT + USER_INPUT_PROMP;
-
-    console.log(FINAL_PROMT);
+  const SaveCourseLayoutInDb = async (courseLayout) => {
     try {
-      // Ensure the response object is correctly accessed
-      const result = await GenerateCourseLayout_Ai?.sendMessage(FINAL_PROMT);
-      console.log("Response from AI: ", result?.response?.text());
+      const id = uuid4();
+      const result = await db.insert(CourseList).values({
+        courseId: id,
+        name: userCourseInput?.topic,
+        level: userCourseInput?.level,
+        category: userCourseInput?.category,
+        courseOutput: courseLayout,
+        createdBy: user?.primaryEmailAddress?.emailAddress,
+        userName: user?.fullName,
+        userProfilImage: user?.imageUrl,
+      });
+      console.log("Course saved successfully:", result);
     } catch (error) {
-      console.error("Error in sending message:", error);
+      console.error("Error saving course to database:", error);
+    } finally {
+      setLoading(false);
     }
-    setIsLoading(false);
+  };
+
+  const GenerateCourseLayout = async () => {
+    setLoading(true);
+    try {
+      const BASIC_PROMT =
+        "Generate A Course Tutorail on Following Detail With field as Course Name, Description, Along with Chapter Name, about, Duration:";
+      const USER_INPUT_PROMP =
+        "Category: " +
+        userCourseInput?.category +
+        " Topic: " +
+        userCourseInput?.topic +
+        " Level: " +
+        userCourseInput?.level +
+        " Duration: " +
+        userCourseInput?.duration +
+        " No Chapters: " +
+        userCourseInput?.noOfChapter +
+        " in JSON format";
+      const FINAL_PROMT = BASIC_PROMT + USER_INPUT_PROMP;
+
+      const result = await GenerateCourseLayout_Ai?.sendMessage(FINAL_PROMT);
+      const parsedResult = JSON.parse(result?.response?.text());
+      setLoading(false);
+      console.log("Response from AI: ", parsedResult);
+      await SaveCourseLayoutInDb(parsedResult);
+    } catch (error) {
+      console.error("Error generating course layout:", error);
+    }
   };
 
   return (
@@ -169,6 +193,7 @@ export default function CreateCourse() {
           )}
         </div>
       </div>
+      <LoadingDialog loading={loading} />
     </div>
   );
 }
