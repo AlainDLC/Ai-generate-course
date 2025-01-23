@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { use, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   HiClipboardDocumentCheck,
   HiLightBulb,
@@ -14,15 +14,16 @@ import { GenerateCourseLayout_Ai } from "../../configs/AiModel";
 import LoadingDialog from "./_components/LoadingDialog";
 import { db } from "@/configs/db";
 import { CourseList } from "@/configs/schema";
-import { uuid } from "drizzle-orm/pg-core";
 import { useUser } from "@clerk/nextjs";
 import uuid4 from "uuid4";
+import { useRouter } from "next/navigation";
 
 export default function CreateCourse() {
   const { user } = useUser();
   const [loading, setLoading] = useState(false);
   const { userCourseInput, setUserCourseInput } = useContext(UseInputContext);
   const [activeIndex, setActiveIndex] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     console.log(userCourseInput);
@@ -91,8 +92,10 @@ export default function CreateCourse() {
         createdBy: user?.primaryEmailAddress?.emailAddress,
         userName: user?.fullName,
         userProfilImage: user?.imageUrl,
+        noOfChapter: courseLayout?.Chapters?.length || 0,
       });
       console.log("Course saved successfully:", result);
+      router.replace("/create-course/" + id);
     } catch (error) {
       console.error("Error saving course to database:", error);
     } finally {
@@ -127,6 +130,7 @@ export default function CreateCourse() {
     } catch (error) {
       console.error("Error generating course layout:", error);
     }
+    setLoading(false);
   };
 
   return (
