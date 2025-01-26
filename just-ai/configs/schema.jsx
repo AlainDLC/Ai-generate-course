@@ -13,3 +13,11 @@ export const CourseList = pgTable("course_list", {
   userProfilImage: varchar("userProfilImage"),
   noOfChapter: integer("noOfChapter").notNull(),
 });
+
+export const Chapters = pgTable("chapter", {
+  id: serial("id").primaryKey(),
+  courseId: varchar("courseId").notNull(),
+  chapterId: integer("chapterId").notNull(),
+  content: json("content").notNull(),
+  videoId: varchar("videoId").notNull(),
+});

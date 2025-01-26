@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { SignOutButton, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Header() {
   return (
     <div className="flex justify-between items-center p-3 shadow-sm">
       {/* Logotypen till vänster */}
+
       <Image src={"/kaw.jpg"} width={100} height={100} alt="logo" />
 
       {/* Knapparna längst till höger */}

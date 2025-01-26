@@ -1,13 +1,17 @@
 "use client";
 import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
-import React from "react";
+import React, { useContext } from "react";
 import { HiOutlineHome, HiOutlineSquare3Stack3D } from "react-icons/hi2";
 import { SlLogout } from "react-icons/sl";
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { UseCourseListContext } from "@/app/_context/UserCourseListContext";
 export default function SideBar() {
+  const { userCourseList, setUserCourseList } =
+    useContext(UseCourseListContext);
+
   const Meny = [
     {
       id: 1,
@@ -21,14 +25,9 @@ export default function SideBar() {
       icon: <HiOutlineSquare3Stack3D />,
       path: "/dashboard/explore",
     },
+
     {
       id: 3,
-      name: "Settings",
-      icon: <IoShieldCheckmarkOutline />,
-      path: "/dashboard/settings",
-    },
-    {
-      id: 4,
       name: "Upgrade",
       icon: <HiOutlineHome />,
       path: "/dashboard/upgrade",
@@ -63,8 +62,10 @@ export default function SideBar() {
         ))}
       </ul>
       <div className="absolute bottom-10 w-[80%]">
-        <Progress value={33} />
-        <h2 className="text-sm my-2">3 Out of % Courses Created</h2>
+        <Progress value={(userCourseList?.length / 5) * 100} />
+        <h2 className="text-sm my-2">
+          {userCourseList?.length} Out of % Courses Created
+        </h2>
         <h2 className="text-xs text-slate-500">
           Upgrade your plan for course generated
         </h2>

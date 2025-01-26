@@ -1,4 +1,5 @@
 "use client";
+import { Toaster } from "@/components/ui/toaster";
 import {
   ClerkProvider,
   GoogleOneTap,
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
+          <Toaster />
           {children}
         </body>
       </html>
