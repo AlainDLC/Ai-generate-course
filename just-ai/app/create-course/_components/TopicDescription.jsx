@@ -15,11 +15,11 @@ export default function TopicDescriptoin() {
     <div className="mx-20 lg:mx-44">
       <div className="mt-5">
         <label>
-          💡 Write te topic you want to generate a course (e.g Python, Yoga
-          etc..)
+          💡 Specify the type of driving license you are applying for. (e.g.,
+          Bike, Car, Truck, etc.)
         </label>
         <Input
-          placeholder="Topic"
+          placeholder="Licens"
           onChange={(e) => handleInputChange("topic", e.target.value)}
           defaultValue={userCourseInput?.topic}
         />
@@ -30,7 +30,7 @@ export default function TopicDescriptoin() {
           course
         </label>
         <Textarea
-          placeholder="Bout your course"
+          placeholder="Lets do it"
           onChange={(e) => handleInputChange("description", e.target.value)}
           defaultValue={userCourseInput?.description}
         />

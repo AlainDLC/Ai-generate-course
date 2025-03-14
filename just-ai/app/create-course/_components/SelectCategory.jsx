@@ -10,8 +10,8 @@ export default function SelectCategory() {
     setUserCourseInput((prev) => ({ ...prev, category: category }));
   };
   return (
-    <div className="px-10 md:px-20">
-      <h2 className="my-5">Select the Course Category</h2>
+    <div className="px-10 md:px-20 text-center">
+      <h2 className="my-5">Select License Type</h2>
       <div className="grid grid-cols-3 gap-10 ">
         {CategoryList.map((item, index) => (
           <div

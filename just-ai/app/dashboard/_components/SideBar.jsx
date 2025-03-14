@@ -44,7 +44,7 @@ export default function SideBar() {
 
   return (
     <div className="fixed h-full md:w-64 p-5 shadow-md">
-      <Image src={"/kaw.jpg"} width={160} height={100} alt="kaw" />
+      <Image src={"/a.png"} width={160} height={100} alt="kaw" />
       <div className="my-10" />
 
       <ul>

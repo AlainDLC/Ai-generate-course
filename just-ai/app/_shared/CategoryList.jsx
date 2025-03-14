@@ -1,20 +1,20 @@
 export default [
   {
     id: 1,
-    name: "Programming",
-    icon: "/code.png",
+    name: "Bike",
+    icon: "/motorbike.png",
     promt: "",
   },
   {
     id: 2,
-    name: "Health",
-    icon: "/gym.png",
+    name: "Car",
+    icon: "/car.png",
     promt: "",
   },
   {
     id: 3,
-    name: "Creative",
-    icon: "/cretive.png",
+    name: "Truck",
+    icon: "/truck.png",
     promt: "",
   },
 ];

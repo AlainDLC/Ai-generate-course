@@ -23,7 +23,7 @@ export default function CourseCard({ course, displayUser = false }) {
     <div className="p-2 shadow-md flex  flex-col border transition-all cursor-pointer ">
       <Link href={"/course/" + course?.courseId}>
         <Image
-          src={"/agusta.jpg"}
+          src={"/a.png"}
           height={300}
           width={200}
           alt="kaw"

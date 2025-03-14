@@ -136,7 +136,9 @@ export default function CreateCourse() {
   return (
     <div>
       <div className="flex flex-col items-center mt-10">
-        <h2 className="text-4xl font-medium text-primary">Create Course</h2>
+        <h2 className="text-4xl font-medium text-bl">
+          Your own AI course content
+        </h2>
         <div className="flex mt-10">
           {StepperOptions.map((item, index) => (
             <div key={index} className="flex items-center">
